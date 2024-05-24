@@ -3,7 +3,7 @@ export interface Config {
   [key: string]: string | BufferEncoding;
 }
 export interface KeyValueStringT {
-  [key: string]: string ;
+  [key: string]: string;
 }
 
 export interface KeyValueT {
@@ -12,7 +12,7 @@ export interface KeyValueT {
 
 export type RequireFields = {
   [key: string]: number[];
-}
+};
 
 export interface RequiredFieldSchemaT {
   processing_code: string;
@@ -26,6 +26,7 @@ export interface CustomFormatT {
   LenType?: string;
   MaxLen?: number;
   MinLen?: number;
+  hasExtentions?: boolean;
 }
 export interface CustomFormatsT {
   [key: string]: CustomFormatT;
@@ -35,18 +36,17 @@ export interface Err {
   error: string;
 }
 
-export type ISO8583RawT = Buffer
+export type ISO8583RawT = Buffer;
 
 export interface ISO8583JsonT {
   [key: string | number]: string;
 }
 
-
 export interface BitMap {
   [key: string | number]: number;
 }
 
-export type ISOMessageT = ISO8583JsonT | ISO8583RawT
+export type ISOMessageT = ISO8583JsonT | ISO8583RawT;
 
 const SpT = require('./specialFields/tools');
 const maskPan = require('./maskPan');
@@ -80,7 +80,7 @@ const assemble127_25_extensions = require('./pack/assemble127_25_extensions');
  * Main ISO 8583 Class used to create a new message object with formating methods.
  * @param {object} message - An ISO 8583 message in JSON format.
  * @param {object} customFormats - Custom ISO 8583 format definitions.
- * @param {object} requiredFieldsSchema - Required field Schema definitions for different message 
+ * @param {object} requiredFieldsSchema - Required field Schema definitions for different message
  * @example new Main(SomeMessage,customFormats, requiredFieldConfig) -> Main..
  */
 export class Main {
@@ -112,11 +112,7 @@ export class Main {
 
   includesSecondaryBitmap: boolean;
 
-  constructor(
-    message: ISOMessageT,
-    customFormats: CustomFormatsT,
-    requiredFieldsSchema: RequiredFieldSchemaT,
-  ) {
+  constructor(message: ISOMessageT, customFormats: CustomFormatsT, requiredFieldsSchema: RequiredFieldSchemaT) {
     if (Buffer.isBuffer(message)) {
       this.BufferMsg = message;
     } else {
