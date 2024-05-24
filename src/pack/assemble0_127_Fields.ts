@@ -1,7 +1,7 @@
 // @ts-nocheck
 import T from '../tools';
-import formats from '../formats'
-import types from'../types';
+import formats from '../formats';
+import types from '../types';
 import * as SpT from '../specialFields/tools';
 
 /**
@@ -29,8 +29,9 @@ function assemble0_127_Fields() {
     for (let i = 1; i < this.bitmaps.length; i++) {
       const field = i + 1;
       if (this.bitmaps[i] === 1) {
+        const this_format = this.formats[field] || formats[field];
         // present
-        if (field === 127) {
+        if (field === 127 && this_format?.hasExtentions) {
           const _127_exetnsions = this.assemble127_extensions();
           if (!_127_exetnsions.error) {
             if (_127_exetnsions.byteLength > 12) {
@@ -46,7 +47,7 @@ function assemble0_127_Fields() {
         if (!this.Msg[field]) {
           return T.toErrorObject(['Field ', field, ' in bitmap but not in json']);
         }
-        const this_format = this.formats[field] || formats[field];
+
         const state = types(this_format, this.Msg[field], field);
         if (state.error) {
           return state;
@@ -84,7 +85,10 @@ function assemble0_127_Fields() {
               for (let i = 0; i < padCount; i++) {
                 lenIndicator = 0 + lenIndicator;
               }
-              const thisBuff = Buffer.alloc(this.Msg[field].length + lenIndicator.length, lenIndicator + this.Msg[field]);
+              const thisBuff = Buffer.alloc(
+                this.Msg[field].length + lenIndicator.length,
+                lenIndicator + this.Msg[field],
+              );
               buff = Buffer.concat([buff, thisBuff]);
             }
           }
