@@ -31,7 +31,7 @@ function assemble0_127_Fields() {
       if (this.bitmaps[i] === 1) {
         const this_format = this.formats[field] || formats[field];
         // present
-        if (field === 127 && this_format?.hasExtentions) {
+        if (field === 127 && this_format?.hasExtentions !== false) {
           const _127_exetnsions = this.assemble127_extensions();
           if (!_127_exetnsions.error) {
             if (_127_exetnsions.byteLength > 12) {
