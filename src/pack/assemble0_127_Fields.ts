@@ -52,6 +52,7 @@ function assemble0_127_Fields() {
         if (state.error) {
           return state;
         }
+        // console.log('thisBuff', { complete: this.Msg[field], tag: field, data: JSON.stringify(thisBuff) });
         if (this_format) {
           if (this_format.LenType === 'fixed') {
             if (this_format.ContentType === 'b') {
@@ -71,7 +72,7 @@ function assemble0_127_Fields() {
               }
             }
           } else {
-            const thisLen = T.getLenType(this_format.LenType);
+            const thisLen = T.getLenType(this_format.LenType.toLowerCase());
             if (!this_format.MaxLen)
               return T.toErrorObject(['max length not implemented for ', this_format.LenType, field]);
             if (this.Msg[field] && this.Msg[field].length > this_format.MaxLen)
@@ -79,17 +80,18 @@ function assemble0_127_Fields() {
             if (thisLen === 0) {
               return T.toErrorObject(['field', field, ' has no field implementation']);
             } else {
-              const actualLength = this.Msg[field].length;
+              let actualLength = this.Msg[field].length;
+              if (this_format.format === 'hex') {
+                actualLength = actualLength / 2;
+              }
               const padCount = thisLen - actualLength.toString().length;
               let lenIndicator = actualLength.toString();
               for (let i = 0; i < padCount; i++) {
                 lenIndicator = 0 + lenIndicator;
               }
-              const thisBuff = Buffer.alloc(
-                this.Msg[field].length + lenIndicator.length,
-                lenIndicator + this.Msg[field],
-              );
-              buff = Buffer.concat([buff, thisBuff]);
+              const length = Buffer.from(lenIndicator);
+              const thisBuff = Buffer.from(this.Msg[field], this_format.format ?? 'ascii');
+              buff = Buffer.concat([buff, length, thisBuff]);
             }
           }
         } else {
@@ -97,7 +99,6 @@ function assemble0_127_Fields() {
         }
       }
     }
-
     return Buffer.concat([buff]);
   } else {
     return state;

@@ -45,6 +45,7 @@ export default function (incoming: Buffer, isoJSON: Types.KeyValueStringT, confi
             continue;
           }
         }
+
         if (this_format) {
           if (this_format.LenType === 'fixed') {
             if (this_format.ContentType === 'b') {
@@ -66,7 +67,7 @@ export default function (incoming: Buffer, isoJSON: Types.KeyValueStringT, confi
             } else {
               const len = thisBuff.slice(0, thisLen).toString();
               thisBuff = thisBuff.slice(thisLen, thisBuff.byteLength);
-              isoJSON[field] = thisBuff.slice(0, Number(len)).toString();
+              isoJSON[field] = thisBuff.slice(0, Number(len)).toString(this_format.format ?? 'ascii');
               thisBuff = thisBuff.slice(Number(len), thisBuff.byteLength);
             }
           }

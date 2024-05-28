@@ -27,6 +27,7 @@ export interface CustomFormatT {
   MaxLen?: number;
   MinLen?: number;
   hasExtentions?: boolean;
+  representation?: 'hex' | 'utf8';
 }
 export interface CustomFormatsT {
   [key: string]: CustomFormatT;
