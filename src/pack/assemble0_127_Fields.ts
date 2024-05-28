@@ -1,7 +1,7 @@
 // @ts-nocheck
 import T from '../tools';
-import formats from '../formats'
-import types from'../types';
+import formats from '../formats';
+import types from '../types';
 import * as SpT from '../specialFields/tools';
 
 /**
@@ -29,8 +29,9 @@ function assemble0_127_Fields() {
     for (let i = 1; i < this.bitmaps.length; i++) {
       const field = i + 1;
       if (this.bitmaps[i] === 1) {
+        const this_format = this.formats[field] || formats[field];
         // present
-        if (field === 127) {
+        if (field === 127 && this_format?.hasExtentions !== false) {
           const _127_exetnsions = this.assemble127_extensions();
           if (!_127_exetnsions.error) {
             if (_127_exetnsions.byteLength > 12) {
@@ -46,11 +47,12 @@ function assemble0_127_Fields() {
         if (!this.Msg[field]) {
           return T.toErrorObject(['Field ', field, ' in bitmap but not in json']);
         }
-        const this_format = this.formats[field] || formats[field];
+
         const state = types(this_format, this.Msg[field], field);
         if (state.error) {
           return state;
         }
+        // console.log('thisBuff', { complete: this.Msg[field], tag: field, data: JSON.stringify(thisBuff) });
         if (this_format) {
           if (this_format.LenType === 'fixed') {
             if (this_format.ContentType === 'b') {
@@ -70,7 +72,7 @@ function assemble0_127_Fields() {
               }
             }
           } else {
-            const thisLen = T.getLenType(this_format.LenType);
+            const thisLen = T.getLenType(this_format.LenType.toLowerCase());
             if (!this_format.MaxLen)
               return T.toErrorObject(['max length not implemented for ', this_format.LenType, field]);
             if (this.Msg[field] && this.Msg[field].length > this_format.MaxLen)
@@ -78,14 +80,18 @@ function assemble0_127_Fields() {
             if (thisLen === 0) {
               return T.toErrorObject(['field', field, ' has no field implementation']);
             } else {
-              const actualLength = this.Msg[field].length;
+              let actualLength = this.Msg[field].length;
+              if (this_format.format === 'hex') {
+                actualLength = actualLength / 2;
+              }
               const padCount = thisLen - actualLength.toString().length;
               let lenIndicator = actualLength.toString();
               for (let i = 0; i < padCount; i++) {
                 lenIndicator = 0 + lenIndicator;
               }
-              const thisBuff = Buffer.alloc(this.Msg[field].length + lenIndicator.length, lenIndicator + this.Msg[field]);
-              buff = Buffer.concat([buff, thisBuff]);
+              const length = Buffer.from(lenIndicator);
+              const thisBuff = Buffer.from(this.Msg[field], this_format.format ?? 'ascii');
+              buff = Buffer.concat([buff, length, thisBuff]);
             }
           }
         } else {
@@ -93,7 +99,6 @@ function assemble0_127_Fields() {
         }
       }
     }
-
     return Buffer.concat([buff]);
   } else {
     return state;

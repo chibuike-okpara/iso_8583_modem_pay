@@ -35,7 +35,7 @@ export default function (incoming: Buffer, isoJSON: Types.KeyValueStringT, confi
         // format defined
         const field = i + 1;
         const this_format = this.formats[field] || formats[field];
-        if (field === 127) {
+        if (field === 127 && this_format?.hasExtentions !== false) {
           const get127Exts = this.unpack_127_1_63(thisBuff, isoJSON);
           if (get127Exts.error) {
             return get127Exts;
@@ -45,6 +45,7 @@ export default function (incoming: Buffer, isoJSON: Types.KeyValueStringT, confi
             continue;
           }
         }
+
         if (this_format) {
           if (this_format.LenType === 'fixed') {
             if (this_format.ContentType === 'b') {
@@ -66,7 +67,7 @@ export default function (incoming: Buffer, isoJSON: Types.KeyValueStringT, confi
             } else {
               const len = thisBuff.slice(0, thisLen).toString();
               thisBuff = thisBuff.slice(thisLen, thisBuff.byteLength);
-              isoJSON[field] = thisBuff.slice(0, Number(len)).toString();
+              isoJSON[field] = thisBuff.slice(0, Number(len)).toString(this_format.format ?? 'ascii');
               thisBuff = thisBuff.slice(Number(len), thisBuff.byteLength);
             }
           }
@@ -77,4 +78,4 @@ export default function (incoming: Buffer, isoJSON: Types.KeyValueStringT, confi
     this.remainingBuffer = thisBuff;
     return isoJSON;
   } else return T.toErrorObject(['expecting buffer but got ', typeof incoming]);
-};
+}
