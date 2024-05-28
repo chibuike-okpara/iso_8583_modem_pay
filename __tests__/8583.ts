@@ -1754,7 +1754,7 @@ test('Encode Decode with 127 with no extentions', () => {
   expect(decoded).toStrictEqual(data);
 });
 
-test('Encode Decode with 55 as bytes', () => {
+test('Encode Decode with 55 as hex', () => {
   // try {
   let data = {
     0: '0100',

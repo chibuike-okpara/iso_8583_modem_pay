@@ -2,7 +2,10 @@
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/zemuldo/iso8583_helper.svg)](https://greenkeeper.io/)~![Travis CI build badge](https://travis-ci.org/zemuldo/iso8583_helper.svg?branch=main)~[![Known Vulnerabilities](https://snyk.io/test/github/zemuldo/iso8583_helper/badge.svg?targetFile=package.json)](https://snyk.io/test/github/zemuldo/iso8583_helper?targetFile=package.json)
 
-This project is a fork of [iso_8583](https://www.npmjs.com/package/iso_8583/v/3.0.0-beta-6)
+This project is a fork of [iso_8583](https://www.npmjs.com/package/iso_8583/v/3.0.0-beta-6) with some additional functionalities includes
+
+1. Encode Decode with 127 with no extentions
+2. Encode Decode with 55 as hex
 
 iso8583_helper is a <span style="color:green; font-size:18px">Customizable ISO 8583 Library for JavaScript and NodeJS</span> that does message conversion between a system and an interface that exchange [ISO 8583 Financial transaction card originated messages](https://en.wikipedia.org/wiki/iso8583_helper).
 
