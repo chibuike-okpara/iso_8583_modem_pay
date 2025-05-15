@@ -1,5 +1,5 @@
 {
-  "name": "iso8583_helper",
+  "name": "iso8583_modem_pay",
   "version": "2.0.1",
   "description": "A javascript library for messaging in iso 8583 messaging format.",
   "main": "./lib/ISO8583.js",
@@ -10,7 +10,8 @@
     "test.watch": "npx ava --verbose --watch",
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
-    "lint": "tslint -p tsconfig.json"
+    "lint": "tslint -p tsconfig.json",
+    "publish:iso": "rm -rvf ./lib && tsc --build && npm publish --registry=https://registry.npmjs.org/"
   },
   "repository": {
     "type": "git",

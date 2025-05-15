@@ -157,9 +157,9 @@ const message_types: Version = {
     '1621': 'Administration advice repeat',
     '1630': 'Administration advice response',
 
-    '1800': 'Network Management request',
+    '1804': 'Network Management request',
     '1801': 'Network Management request repeat',
-    '1810': 'Network Management request response',
+    '1814': 'Network Management request response',
     '1820': 'Network Management advice',
   },
   2003: {
@@ -219,7 +219,7 @@ const message_types: Version = {
 };
 
 export default function (mti: string | null) {
-  if(!mti) return false
+  if (!mti) return false
   const msg_type1987 = message_types['1987'][mti];
   const msg_type1993 = message_types['1993'][mti];
   const msg_type2003 = message_types['2003'][mti];
