@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kugesh-Rajasekaran/iso_8583_upgraded/tree/feat-has-no-extentions"
+    "url": "git+https://github.com/chibuike-okpara/iso_8583_modem_pay"
   },
   "keywords": [
     "iso",
@@ -27,9 +27,9 @@
   "author": "Danstan Otieno Onyango and Kugesh Rajasekaran",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kugesh-Rajasekaran/iso_8583_upgraded/tree/feat-has-no-extentions/issues"
+    "url": "https://github.com/chibuike-okpara/iso_8583_modem_pay/issues"
   },
-  "homepage": "https://github.com/kugesh-Rajasekaran/iso_8583_upgraded/tree/feat-has-no-extentions/wiki",
+  "homepage": "https://github.com/chibuike-okpara/iso_8583_modem_pay/wiki",
   "dependencies": {
     "date-fns": "^2.9.0",
     "jxon": "^2.0.0-beta.5"
